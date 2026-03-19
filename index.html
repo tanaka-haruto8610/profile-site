@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>田中 悠大 | ディレクター / PMO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Design Tokens ===== */
+    :root {
+      --navy: #1a2744;
+      --navy-light: #243352;
+      --warm-gray: #f5f3ef;
+      --gold: #b08d57;
+      --gold-light: #c9a96e;
+      --charcoal: #2d2d2d;
+      --gray: #8c8c8c;
+      --light-gray: #c0c0c0;
+      --white: #ffffff;
+      --off-white: #fafaf8;
+      --border: #e8e5e0;
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+      color: var(--charcoal);
+      line-height: 1.8;
+      background: var(--white);
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* ===== Scroll Fade-in ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(26, 39, 68, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.3s;
+    }
+    .nav.scrolled {
+      background: rgba(26, 39, 68, 0.98);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+    }
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--white);
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.6);
+      transition: color 0.2s;
+      font-family: "Inter", sans-serif;
+      text-transform: uppercase;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 28px;
+      height: 20px;
+      position: relative;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--white);
+      position: absolute;
+      left: 0;
+      transition: 0.3s;
+    }
+    .nav-hamburger span:nth-child(1) { top: 0; }
+    .nav-hamburger span:nth-child(2) { top: 9px; }
+    .nav-hamburger span:nth-child(3) { top: 18px; }
+
+    /* ===== Section Common ===== */
+    .section-wrap {
+      padding: 100px 24px;
+    }
+    .section-wrap.bg-warm {
+      background: var(--warm-gray);
+    }
+    .section-wrap.bg-navy {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: "Inter", sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .section-heading {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 48px;
+      padding-left: 16px;
+      border-left: 3px solid var(--gold);
+      line-height: 1.4;
+    }
+    .bg-warm .section-heading { color: var(--navy); }
+    .bg-navy .section-title { color: var(--gold-light); }
+    .bg-navy .section-heading {
+      color: var(--white);
+      border-left-color: var(--gold);
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--navy);
+      color: var(--white);
+      padding: 60px 24px 80px;
+      position: relative;
+    }
+    .hero-photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: var(--navy-light);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      overflow: hidden;
+      border: 3px solid rgba(255,255,255,0.15);
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-name {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .hero-name-en {
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.2em;
+      margin-bottom: 20px;
+    }
+    .hero-role {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 40px;
+      letter-spacing: 0.1em;
+    }
+    .hero-catchcopy {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.6;
+      letter-spacing: 0.05em;
+    }
+    .hero-sub {
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      font-family: "Inter", sans-serif;
+      font-size: 10px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.2em;
+      animation: bounce 2.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ===== About ===== */
+    .about-content {
+      max-width: 680px;
+    }
+    .about-text {
+      font-size: 15px;
+      margin-bottom: 36px;
+      color: #555;
+      line-height: 2;
+    }
+    .about-info {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .about-info-item {
+      font-size: 14px;
+      color: var(--charcoal);
+    }
+    .about-info-label {
+      font-family: "Inter", sans-serif;
+      font-size: 10px;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    /* ===== Achievements ===== */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .achievement-card {
+      text-align: center;
+      padding: 36px 16px;
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    }
+    .achievement-number {
+      font-family: "Inter", sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1.1;
+    }
+    .achievement-unit {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .achievement-label {
+      font-size: 13px;
+      color: var(--navy);
+      margin-top: 10px;
+      font-weight: 700;
+    }
+    .achievement-desc {
+      font-size: 11px;
+      color: var(--gray);
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+    .achievement-award {
+      text-align: center;
+      padding: 28px;
+      background: var(--white);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--navy);
+    }
+    .achievement-award-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .achievement-award-desc {
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    /* ===== Strengths ===== */
+    .strengths-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .strength-item {
+      padding: 36px;
+      background: var(--white);
+      border-radius: 8px;
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      border-left: 3px solid var(--gold);
+    }
+    .strength-num {
+      font-family: "Inter", sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+      line-height: 1;
+      opacity: 0.7;
+    }
+    .strength-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--navy);
+    }
+    .strength-body p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    /* ===== Career ===== */
+    .timeline {
+      position: relative;
+      padding-left: 36px;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: var(--gold);
+      opacity: 0.4;
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 44px;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -36px;
+      top: 8px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--warm-gray);
+      border: 3px solid var(--navy);
+    }
+    .timeline-item.current::before {
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(176, 141, 87, 0.2);
+    }
+    .timeline-date {
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+    .timeline-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--navy);
+    }
+    .timeline-desc {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* ===== Projects ===== */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--white);
+      transition: box-shadow 0.3s;
+    }
+    .project-card:hover {
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    }
+    .project-header {
+      padding: 24px 28px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .project-header:hover { background: var(--off-white); }
+    .project-header-left { flex: 1; }
+    .project-tag {
+      font-family: "Inter", sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--navy);
+      padding: 3px 12px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .project-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--navy);
+    }
+    .project-meta {
+      font-size: 13px;
+      color: var(--gray);
+    }
+    .project-toggle {
+      font-size: 18px;
+      color: var(--light-gray);
+      transition: transform 0.3s, color 0.3s;
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+    .project-card.open .project-toggle {
+      transform: rotate(180deg);
+      color: var(--gold);
+    }
+    .project-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+    }
+    .project-card.open .project-detail {
+      max-height: 800px;
+    }
+    .project-detail-inner {
+      padding: 0 28px 28px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+    .project-detail h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+    .project-detail h4:first-child { margin-top: 0; }
+    .project-detail p,
+    .project-detail ul {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.8;
+    }
+    .project-detail ul {
+      padding-left: 20px;
+    }
+    .project-detail li {
+      margin-bottom: 4px;
+    }
+    .project-result {
+      background: var(--warm-gray);
+      padding: 20px 24px;
+      border-radius: 6px;
+      margin-top: 20px;
+      border-left: 3px solid var(--gold);
+    }
+    .project-result h4 {
+      color: var(--navy);
+      margin-top: 0;
+    }
+    .project-result li {
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    /* ===== Skills ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 36px;
+    }
+    .skill-category h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--navy);
+      letter-spacing: 0.03em;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skill-tag {
+      font-size: 12px;
+      padding: 5px 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--charcoal);
+      transition: border-color 0.2s;
+    }
+    .skill-tag:hover {
+      border-color: var(--gold);
+    }
+
+    /* ===== Contact ===== */
+    .contact-inner {
+      text-align: center;
+    }
+    .bg-navy .section-heading {
+      border-left: none;
+      text-align: center;
+      padding-left: 0;
+    }
+    .contact-text {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 28px;
+    }
+    .contact-email {
+      font-family: "Inter", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .contact-email:hover {
+      color: var(--gold-light);
+      text-decoration: underline;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      background: var(--navy);
+      font-family: "Inter", sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(26, 39, 68, 0.98);
+        padding: 24px;
+        gap: 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .section-wrap { padding: 72px 20px; }
+      .hero-name { font-size: 26px; }
+      .hero-catchcopy { font-size: 18px; }
+      .hero-photo { width: 130px; height: 130px; }
+      .section-heading { font-size: 20px; }
+      .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .achievement-number { font-size: 32px; }
+      .strength-item {
+        flex-direction: column;
+        gap: 12px;
+        padding: 24px;
+      }
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+      .about-info { gap: 24px; }
+      .project-header { padding: 20px; }
+      .project-detail-inner { padding: 0 20px 20px; padding-top: 20px; }
+    }
+    @media (max-width: 480px) {
+      .achievements-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">Haruto Tanaka</div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#achievements">Achievements</a></li>
+        <li><a href="#strengths">Strengths</a></li>
+        <li><a href="#career">Career</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero" id="hero">
+    <div class="hero-photo">
+      <img src="profile.jpg" alt="田中悠大">
+    </div>
+    <h1 class="hero-name">田中 悠大</h1>
+    <p class="hero-name-en">TANAKA HARUTO</p>
+    <p class="hero-role">Director / PMO</p>
+    <p class="hero-catchcopy">構想から定着まで、組織を動かす。</p>
+    <p class="hero-sub">生成AI導入 &times; PMO で企業変革を推進</p>
+    <div class="hero-scroll">&#9660; SCROLL</div>
+  </div>
+
+  <!-- About -->
+  <div class="section-wrap" id="about">
+    <div class="section-inner">
+      <p class="section-title fade-in">About</p>
+      <h2 class="section-heading fade-in">自己紹介</h2>
+      <div class="about-content fade-in">
+        <p class="about-text">
+          2023年に株式会社メンバーズへ新卒入社。生成AIの導入・定着支援を軸に、PMO・Webディレクション・広告運用・コンサルティングまでを横断的に経験。<br>
+          戦略的な計画立案と現場推進の両輪で、構想段階から現場定着まで、組織の利益最大化にコミットします。
+        </p>
+        <div class="about-info">
+          <div class="about-info-item">
+            <p class="about-info-label">Education</p>
+            <p>東洋大学 卒業（2023年3月）</p>
+          </div>
+          <div class="about-info-item">
+            <p class="about-info-label">Company</p>
+            <p>株式会社メンバーズ（2023年4月〜）</p>
+          </div>
+          <div class="about-info-item">
+            <p class="about-info-label">Location</p>
+            <p>東京都</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Achievements -->
+  <div class="section-wrap bg-warm" id="achievements">
+    <div class="section-inner">
+      <p class="section-title fade-in">Achievements</p>
+      <h2 class="section-heading fade-in">実績ハイライト</h2>
+      <div class="achievements-grid fade-in">
+        <div class="achievement-card">
+          <div class="achievement-number" data-count="500">0<span class="achievement-unit">名+</span></div>
+          <p class="achievement-label">AI利用定着</p>
+          <p class="achievement-desc">全社員約1,000名中500名超が利用する基盤を構築</p>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-number" data-count="8">0<span class="achievement-unit">ヶ月</span></div>
+          <p class="achievement-label">契約更新延伸</p>
+          <p class="achievement-desc">3ヶ月の契約から8ヶ月へ段階的に延伸</p>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-number" data-count="20">0<span class="achievement-unit">万UP</span></div>
+          <p class="achievement-label">契約単価向上</p>
+          <p class="achievement-desc">業務成果が評価され、90万円から112万円へ</p>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-number" data-count="30">0<span class="achievement-unit">%</span></div>
+          <p class="achievement-label">業務効率化</p>
+          <p class="achievement-desc">ChatGPT研修により個人業務プロセスを効率化</p>
+        </div>
+      </div>
+      <div class="achievement-award fade-in">
+        <p class="achievement-award-name">若手賞 / ベストカスタマーサクセスプレイヤー賞</p>
+        <p class="achievement-award-desc">入社1〜3年目対象 約1,000名中から選出。他者3名からの推薦を受け受賞。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strengths -->
+  <div class="section-wrap" id="strengths">
+    <div class="section-inner">
+      <p class="section-title fade-in">Strengths</p>
+      <h2 class="section-heading fade-in">3つの強み</h2>
+      <div class="strengths-list">
+        <div class="strength-item fade-in">
+          <div class="strength-num">01</div>
+          <div class="strength-body">
+            <h3>巻き込み力 &times; PMOスキル</h3>
+            <p>単なる進行管理にとどまらず、関係者間のハブとなり合意形成を図ることを最も重視。経営層の意向と現場の懸念、ベンダーの技術要件という異なる視点を調整するため、対話を重ねて信頼関係を構築。泥臭い調整力と、論理的な管理手法（WBS・リスク管理）を掛け合わせ、全社規模のプロジェクトを停滞させることなく推進します。</p>
+          </div>
+        </div>
+        <div class="strength-item fade-in">
+          <div class="strength-num">02</div>
+          <div class="strength-body">
+            <h3>成果へのコミットメント・当事者意識</h3>
+            <p>新しい技術を導入するだけでなく、「顧客のビジネス成果（利益）」に繋げることに執着。ツールを入れて終わりにするのではなく、「現場への浸透」を徹底的に検証し、お客さまの組織文化にあった施策を検討。顧客のビジネスを我が事として捉える「当事者意識」の高さが、信頼と成果を生み出します。</p>
+          </div>
+        </div>
+        <div class="strength-item fade-in">
+          <div class="strength-num">03</div>
+          <div class="strength-body">
+            <h3>未知への挑戦 ── 学習欲と行動量</h3>
+            <p>若手ならではの吸収力とフットワークの軽さを活かし、変化の激しい領域でも恐れず挑戦。社内制度を活用して生成AIコンサルティング企業へ自ら出向を希望し、MVP2ヶ月連続受賞。新しい技術や困難な課題に対しても、持ち前の熱量でスピーディーにキャッチアップし、即戦力として貢献します。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Career -->
+  <div class="section-wrap bg-warm" id="career">
+    <div class="section-inner">
+      <p class="section-title fade-in">Career</p>
+      <h2 class="section-heading fade-in">経歴</h2>
+      <div class="timeline fade-in">
+        <div class="timeline-item">
+          <p class="timeline-date">2019.4 - 2023.3</p>
+          <p class="timeline-title">東洋大学</p>
+          <p class="timeline-desc">4年制大学 卒業</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2023.5 - 2023.8</p>
+          <p class="timeline-title">株式会社メンバーズ 入社</p>
+          <p class="timeline-desc">Webディレクターとして、NPO団体のGoogle Ad Grants広告運用、社内公式Instagramの運用を担当</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2023.8 - 2024.3</p>
+          <p class="timeline-title">株式会社Workstyle Evolution 社外留学</p>
+          <p class="timeline-desc">生成AI活用コンサルタントとして出向。大手金融・鉄道会社向けChatGPT研修、PoC開発ディレクション、展示会運営を経験</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2024.4 - 2024.6</p>
+          <p class="timeline-title">自社採用サイトリニューアル</p>
+          <p class="timeline-desc">ディレクターとしてワイヤーフレーム設計、進行管理を担当。1ヶ月でのサイト公開を実現</p>
+        </div>
+        <div class="timeline-item current">
+          <p class="timeline-date">2024.8 - 現在</p>
+          <p class="timeline-title">大手保険代理店 常駐 PMO</p>
+          <p class="timeline-desc">生成AI全社展開プロジェクトのPMOとして、全体計画策定から導入・定着支援まで一気通貫で推進</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <div class="section-wrap" id="projects">
+    <div class="section-inner">
+      <p class="section-title fade-in">Projects</p>
+      <h2 class="section-heading fade-in">主要プロジェクト</h2>
+      <div class="projects-list">
+
+        <div class="project-card fade-in">
+          <div class="project-header" onclick="toggleProject(this)">
+            <div class="project-header-left">
+              <span class="project-tag">PMO</span>
+              <p class="project-name">大手保険代理店：生成AI全社展開プロジェクト</p>
+              <p class="project-meta">2024.8 - 現在 ｜ PMO</p>
+            </div>
+            <span class="project-toggle">&#9660;</span>
+          </div>
+          <div class="project-detail">
+            <div class="project-detail-inner">
+              <h4>概要</h4>
+              <p>全国規模で保険代理業を展開する社員1,000名超の大手企業に常駐し、生成AIの全社導入プロジェクトにPMOとして参画。構想フェーズから導入・展開まで一貫して関与。</p>
+              <h4>担当業務</h4>
+              <ul>
+                <li>全体マイルストーン策定、WBS作成、進捗・リスク・課題管理</li>
+                <li>UATにおける品質管理およびレビュー体制構築</li>
+                <li>ベンダー折衝、関連部署連携、社長定例会議資料作成・会議進行</li>
+                <li>生成AIユースケース検討およびビジネス要求定義</li>
+                <li>全社導入を見据えた展開ロードマップ、運用・保守体制の設計</li>
+              </ul>
+              <div class="project-result">
+                <h4>成果</h4>
+                <ul>
+                  <li>社長承認を獲得し、計画通り開発開始</li>
+                  <li>全社員約1,000名中約500名が利用する基盤を構築</li>
+                  <li>1業務あたり約1時間の業務時間削減を実現</li>
+                  <li>契約単価を90万円から112万円へ向上</li>
+                  <li>重大な遅延を1件も発生させず、予定通り全社導入</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-header" onclick="toggleProject(this)">
+            <div class="project-header-left">
+              <span class="project-tag">PoC</span>
+              <p class="project-name">営業特化型育成システム PoC開発ディレクション</p>
+              <p class="project-meta">2023.8 - 2024.3 ｜ アシスタントマネージャー</p>
+            </div>
+            <span class="project-toggle">&#9660;</span>
+          </div>
+          <div class="project-detail">
+            <div class="project-detail-inner">
+              <h4>概要</h4>
+              <p>大規模言語モデル（LLM）を活用したPoC開発。営業職特化型のAIアバターを通して、営業教育・ナレッジの均一化を図るプロジェクト。2チーム体制（計7名）のアシスタントマネージャーを担当。</p>
+              <h4>担当業務</h4>
+              <ul>
+                <li>顧客対応、スケジュール調整、プロンプト設計</li>
+                <li>営業ロープレ検証、RAGデータ処理検証（Python）</li>
+                <li>定例会議設定、データ連携整理、議事録作成・納品</li>
+              </ul>
+              <div class="project-result">
+                <h4>成果</h4>
+                <ul>
+                  <li>PoC開発 &alpha;版のサービスプロダクトを納品</li>
+                  <li>RAG技術を活用し、8割程度の回答実用レベルを実現</li>
+                  <li>商談データを元にしたロープレ設計の実現</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-header" onclick="toggleProject(this)">
+            <div class="project-header-left">
+              <span class="project-tag">研修</span>
+              <p class="project-name">大手鉄道会社：生成AI高度活用検証ワークショップ</p>
+              <p class="project-meta">2023.8 - 2024.3 ｜ アシスタントディレクター</p>
+            </div>
+            <span class="project-toggle">&#9660;</span>
+          </div>
+          <div class="project-detail">
+            <div class="project-detail-inner">
+              <h4>概要</h4>
+              <p>大手鉄道会社の社内エバンジェリスト育成を目的とした、2ヶ月間・計4回のChatGPT実践型活用講座。基礎から応用までの段階的な研修プログラムを設計・運営。</p>
+              <h4>担当業務</h4>
+              <ul>
+                <li>研修資料の設計・作成（合計約180枚）</li>
+                <li>アンケート分析（Looker Studio）による改善提案</li>
+                <li>ワークショップ当日のサポート</li>
+              </ul>
+              <div class="project-result">
+                <h4>成果</h4>
+                <ul>
+                  <li>エバンジェリスト創出と知識共有を実現</li>
+                  <li>個人業務プロセスにおいて平均30%の業務効率化</li>
+                  <li>社員が独力でExcelマクロ設計を実行するなど個人能力向上にも貢献</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-header" onclick="toggleProject(this)">
+            <div class="project-header-left">
+              <span class="project-tag">研修</span>
+              <p class="project-name">大手金融会社：ChatGPT活用研修 &amp; アイデアソン</p>
+              <p class="project-meta">2023.8 - 2024.3 ｜ アシスタントディレクター</p>
+            </div>
+            <span class="project-toggle">&#9660;</span>
+          </div>
+          <div class="project-detail">
+            <div class="project-detail-inner">
+              <h4>概要</h4>
+              <p>社内専用ChatGPTの活用促進を目的とした、業務改善推進担当者向け研修・アイデアソンの企画運営。クライアント企業の仕様に合わせたカスタマイズ案件。</p>
+              <h4>担当業務</h4>
+              <ul>
+                <li>研修・アイデアソンの資料設計・作成</li>
+                <li>研修運営（Zoom参加者対応、Q&amp;A、ランキング集計）</li>
+                <li>業務別プロンプト例の提示と活用事例の共有</li>
+              </ul>
+              <div class="project-result">
+                <h4>成果</h4>
+                <ul>
+                  <li>参加者の9割が「満足」と回答</li>
+                  <li>業務改善に繋がるアイデア創出に成功</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-header" onclick="toggleProject(this)">
+            <div class="project-header-left">
+              <span class="project-tag">Web</span>
+              <p class="project-name">自社採用サイト新規構築</p>
+              <p class="project-meta">2024.4 - 2024.6 ｜ ディレクター</p>
+            </div>
+            <span class="project-toggle">&#9660;</span>
+          </div>
+          <div class="project-detail">
+            <div class="project-detail-inner">
+              <h4>概要</h4>
+              <p>株式会社メンバーズ ビジネスイーカンパニーの採用サイト全面リニューアル。PM、ディレクター、デザイナー、ライターの4名体制。</p>
+              <h4>担当業務</h4>
+              <ul>
+                <li>プロジェクト全体管理・推進（進捗管理、工程管理、リスク管理）</li>
+                <li>採用ターゲット設計、ベンチマーク調査</li>
+                <li>ワイヤーフレーム設計（2営業日で完成）</li>
+              </ul>
+              <div class="project-result">
+                <h4>成果</h4>
+                <ul>
+                  <li>品質を担保したまま1ヶ月でのサイト公開を実現</li>
+                  <li>公開後2名の応募を獲得、うち即戦力人材1名の採用に成功</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-header" onclick="toggleProject(this)">
+            <div class="project-header-left">
+              <span class="project-tag">Other</span>
+              <p class="project-name">NPO団体 リスティング広告運用 / Instagram制作</p>
+              <p class="project-meta">2023.5 - 2024.3 ｜ ディレクター</p>
+            </div>
+            <span class="project-toggle">&#9660;</span>
+          </div>
+          <div class="project-detail">
+            <div class="project-detail-inner">
+              <h4>NPO広告運用</h4>
+              <ul>
+                <li>Google Ad Grantsを活用したリスティング広告運用</li>
+                <li>ペルソナ設計、カスタマージャーニーマップ策定、GA4環境整備</li>
+                <li>月予算20万円の中、3ヶ月でCV2件獲得、リーチ500→1,700に拡大</li>
+              </ul>
+              <h4>Instagramコンテンツ制作</h4>
+              <ul>
+                <li>自社CSV本部のInstagramフィード投稿をFigmaで制作</li>
+                <li>アカウントのテイストに適したデザイン構成、ユーザー目線の追求</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="section-wrap bg-warm" id="skills">
+    <div class="section-inner">
+      <p class="section-title fade-in">Skills &amp; Certifications</p>
+      <h2 class="section-heading fade-in">スキル・資格</h2>
+      <div class="skills-grid fade-in">
+        <div class="skill-category">
+          <h3>PMO・マネジメント</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">WBS策定</span>
+            <span class="skill-tag">スケジュール管理</span>
+            <span class="skill-tag">リスク管理</span>
+            <span class="skill-tag">品質管理</span>
+            <span class="skill-tag">課題管理</span>
+            <span class="skill-tag">ステークホルダー管理</span>
+            <span class="skill-tag">要件定義</span>
+            <span class="skill-tag">ベンダー折衝</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>ツール</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Backlog</span>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">ChatGPT</span>
+            <span class="skill-tag">Figma</span>
+            <span class="skill-tag">Looker Studio</span>
+            <span class="skill-tag">GA4</span>
+            <span class="skill-tag">Microsoft Office</span>
+            <span class="skill-tag">Google Workspace</span>
+            <span class="skill-tag">Slack</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>資格</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">ITパスポート</span>
+            <span class="skill-tag">NPMO認定プロジェクトマネジメント・アソシエイト</span>
+            <span class="skill-tag">Web検定（Webアソシエイト）</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>語学</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">英語（文書読解可能）</span>
+            <span class="skill-tag">TOEIC 500点台</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="section-wrap bg-navy" id="contact">
+    <div class="section-inner contact-inner">
+      <p class="section-title fade-in">Contact</p>
+      <h2 class="section-heading fade-in">お問い合わせ</h2>
+      <p class="contact-text fade-in">お気軽にご連絡ください。</p>
+      <a href="mailto:tanakaharuto.job@gmail.com" class="contact-email fade-in">tanakaharuto.job@gmail.com</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Tanaka Haruto. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+
+    // Nav scroll effect
+    window.addEventListener('scroll', function() {
+      var nav = document.getElementById('nav');
+      if (window.scrollY > 60) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Project accordion
+    function toggleProject(header) {
+      var card = header.closest('.project-card');
+      card.classList.toggle('open');
+    }
+
+    // Scroll fade-in
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(function(el) {
+      observer.observe(el);
+    });
+
+    // Count-up animation for achievement numbers
+    var countObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var target = parseInt(el.getAttribute('data-count'));
+          var unit = el.querySelector('.achievement-unit');
+          var unitText = unit ? unit.outerHTML : '';
+          var duration = 1500;
+          var start = 0;
+          var startTime = null;
+
+          function animate(currentTime) {
+            if (!startTime) startTime = currentTime;
+            var progress = Math.min((currentTime - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var current = Math.floor(eased * target);
+            el.innerHTML = current + unitText;
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            } else {
+              el.innerHTML = target + unitText;
+            }
+          }
+          requestAnimationFrame(animate);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.achievement-number[data-count]').forEach(function(el) {
+      countObserver.observe(el);
+    });
+  </script>
+
+</body>
+</html>
