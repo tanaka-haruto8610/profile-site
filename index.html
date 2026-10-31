@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>田中 悠大 | ディレクター / PMO</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,15 +25,29 @@
 
     /* ===== Reset & Base ===== */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; font-size: 16px; }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      scroll-padding-top: 60px;
+    }
     body {
       font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
       color: var(--charcoal);
       line-height: 1.8;
       background: var(--white);
+      overflow-wrap: break-word;
+      word-break: auto-phrase; /* 文節単位で改行（未対応ブラウザは .phrase で補完） */
     }
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; height: auto; display: block; }
+
+    /* 文節を途中で割らずに折り返すための単位 */
+    .phrase { display: inline-block; }
+    .sentence { display: block; }
+    h1, h2, h3, .hero-catchcopy, .achievement-award-name { text-wrap: balance; }
+    p { text-wrap: pretty; }
 
     /* ===== Scroll Fade-in ===== */
     .fade-in {
@@ -65,7 +79,7 @@
     .nav-inner {
       max-width: 1000px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left));
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -101,6 +115,11 @@
       height: 20px;
       position: relative;
     }
+    .nav-hamburger::before { /* タップ領域を44px以上に拡張 */
+      content: "";
+      position: absolute;
+      inset: -14px -8px;
+    }
     .nav-hamburger span {
       display: block;
       width: 100%;
@@ -116,7 +135,7 @@
 
     /* ===== Section Common ===== */
     .section-wrap {
-      padding: 100px 24px;
+      padding: 100px max(24px, env(safe-area-inset-right)) 100px max(24px, env(safe-area-inset-left));
     }
     .section-wrap.bg-warm {
       background: var(--warm-gray);
@@ -157,6 +176,7 @@
     /* ===== Hero ===== */
     .hero {
       min-height: 100vh;
+      min-height: 100svh; /* iPhone Safariのアドレスバーを考慮 */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -164,7 +184,7 @@
       text-align: center;
       background: var(--navy);
       color: var(--white);
-      padding: 60px 24px 80px;
+      padding: 100px 24px 80px;
       position: relative;
     }
     .hero-photo {
@@ -187,7 +207,7 @@
       object-fit: cover;
     }
     .hero-name {
-      font-size: 34px;
+      font-size: clamp(26px, 7vw, 34px);
       font-weight: 700;
       letter-spacing: 0.08em;
       margin-bottom: 4px;
@@ -207,7 +227,7 @@
       letter-spacing: 0.1em;
     }
     .hero-catchcopy {
-      font-size: 22px;
+      font-size: clamp(18px, 5vw, 22px);
       font-weight: 700;
       margin-bottom: 12px;
       line-height: 1.6;
@@ -234,7 +254,7 @@
 
     /* ===== About ===== */
     .about-content {
-      max-width: 680px;
+      max-width: none;
     }
     .about-text {
       font-size: 15px;
@@ -308,7 +328,7 @@
       border-left: 4px solid var(--navy);
     }
     .achievement-award-name {
-      font-size: 18px;
+      font-size: clamp(15px, 4.2vw, 18px);
       font-weight: 700;
       color: var(--navy);
       margin-bottom: 6px;
@@ -540,6 +560,7 @@
       gap: 8px;
     }
     .skill-tag {
+      max-width: 100%;
       font-size: 12px;
       padding: 5px 16px;
       background: var(--white);
@@ -568,10 +589,11 @@
     }
     .contact-email {
       font-family: "Inter", sans-serif;
-      font-size: 18px;
+      font-size: clamp(15px, 4.8vw, 18px);
       font-weight: 700;
       color: var(--gold);
       letter-spacing: 0.02em;
+      overflow-wrap: anywhere;
       transition: color 0.2s;
     }
     .contact-email:hover {
@@ -582,7 +604,7 @@
     /* ===== Footer ===== */
     footer {
       text-align: center;
-      padding: 28px 24px;
+      padding: 28px 24px max(28px, env(safe-area-inset-bottom));
       font-size: 11px;
       color: rgba(255,255,255,0.3);
       background: var(--navy);
@@ -606,11 +628,12 @@
         gap: 20px;
         border-bottom: 1px solid rgba(255,255,255,0.1);
       }
-      .section-wrap { padding: 72px 20px; }
-      .hero-name { font-size: 26px; }
-      .hero-catchcopy { font-size: 18px; }
+      .section-wrap {
+        padding: 72px max(20px, env(safe-area-inset-right)) 72px max(20px, env(safe-area-inset-left));
+      }
+      .hero { padding: 90px 20px 80px; }
       .hero-photo { width: 130px; height: 130px; }
-      .section-heading { font-size: 20px; }
+      .section-heading { font-size: 20px; margin-bottom: 36px; }
       .achievements-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -630,7 +653,32 @@
     @media (max-width: 480px) {
       .achievements-grid {
         grid-template-columns: 1fr;
+        gap: 14px;
       }
+      .achievement-card { padding: 28px 16px; }
+      .achievement-desc { font-size: 12px; }
+      .achievement-award { padding: 22px 16px; }
+      .achievement-award-desc { font-size: 12px; }
+      .about-text { font-size: 14px; line-height: 1.95; }
+      .about-info {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .strengths-list { gap: 14px; }
+      .strength-item { padding: 20px; }
+      .timeline-desc { font-size: 12.5px; }
+      .project-header { padding: 16px; }
+      .project-detail-inner { padding: 0 16px 16px; padding-top: 18px; }
+      .project-detail p,
+      .project-detail ul { font-size: 13.5px; }
+      .project-detail ul { padding-left: 18px; }
+      .project-result { padding: 16px; }
+      .skills-grid { gap: 28px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .fade-in { transition: none; transform: none; }
+      .hero-scroll { animation: none; }
     }
   </style>
 </head>
@@ -675,8 +723,9 @@
       <h2 class="section-heading fade-in">自己紹介</h2>
       <div class="about-content fade-in">
         <p class="about-text">
-          2023年に株式会社メンバーズへ新卒入社。生成AIの導入・定着支援を軸に、PMO・Webディレクション・広告運用・コンサルティングまでを横断的に経験。<br>
-          戦略的な計画立案と現場推進の両輪で、構想段階から現場定着まで、組織の利益最大化にコミットします。
+          <span class="sentence"><span class="phrase">2023年に</span><span class="phrase">株式会社メンバーズへ</span><span class="phrase">新卒入社。</span></span>
+          <span class="sentence"><span class="phrase">生成AIの導入・定着支援を軸に、</span><span class="phrase">PMO・Webディレクション・</span><span class="phrase">広告運用・</span><span class="phrase">コンサルティングまでを</span><span class="phrase">横断的に経験。</span></span>
+          <span class="sentence"><span class="phrase">戦略的な計画立案と</span><span class="phrase">現場推進の両輪で、</span><span class="phrase">構想段階から</span><span class="phrase">現場定着まで、</span><span class="phrase">組織の利益最大化に</span><span class="phrase">コミットします。</span></span>
         </p>
         <div class="about-info">
           <div class="about-info-item">
@@ -724,8 +773,8 @@
         </div>
       </div>
       <div class="achievement-award fade-in">
-        <p class="achievement-award-name">ベストカスタマーサクセスプレイヤー賞 / 最強で最高の現場アワード若手賞 / 留学生半期MVP</p>
-        <p class="achievement-award-desc">ベストCS賞：所属部署20名中1名選出 ／ 若手賞：入社1〜3年目 約1,300名中2名選出（他者推薦による受賞） ／ 留学生半期MVP：留学生約200名中3名選出</p>
+        <p class="achievement-award-name"><span class="phrase">ベストカスタマーサクセスプレイヤー賞</span> / <span class="phrase">最強で最高の現場アワード若手賞</span> / <span class="phrase">留学生半期MVP</span></p>
+        <p class="achievement-award-desc"><span class="phrase">ベストCS賞：所属部署20名中1名選出</span> ／ <span class="phrase">若手賞：入社1〜3年目 約1,300名中2名選出（他者推薦による受賞）</span> ／ <span class="phrase">留学生半期MVP：留学生約200名中3名選出</span></p>
       </div>
     </div>
   </div>
@@ -1136,10 +1185,18 @@
     });
 
     // Project accordion
+    // 開閉時に実際の高さを設定（画面幅で折り返しが変わっても内容が切れない）
     function toggleProject(header) {
       var card = header.closest('.project-card');
+      var detail = card.querySelector('.project-detail');
       card.classList.toggle('open');
+      detail.style.maxHeight = card.classList.contains('open') ? detail.scrollHeight + 'px' : '';
     }
+    window.addEventListener('resize', function() {
+      document.querySelectorAll('.project-card.open .project-detail').forEach(function(detail) {
+        detail.style.maxHeight = detail.scrollHeight + 'px';
+      });
+    });
 
     // Scroll fade-in
     var observer = new IntersectionObserver(function(entries) {
